@@ -127,4 +127,31 @@ public class UserModel {
 		}
 	}
 	
+	public JSONObject getOneUser(int id) throws JSONException {
+		Connection connection;
+		PreparedStatement preparedStatement;
+		JSONObject json = new JSONObject();
+		
+		try {
+			connection = DB_Connect.getDB();
+			
+			preparedStatement = connection.prepareStatement("SELECT * FROM users where id=?");
+			preparedStatement.setInt(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while(rs.next())
+			{
+				json.put("id", rs.getInt(1));
+				json.put("name", rs.getString(2));
+				json.put("email", rs.getString(3));
+				json.put("address", rs.getString(4));
+				setResults(1);
+			}
+			
+		}catch (ClassNotFoundException | SQLException  e) {
+			setResults(0);
+		}
+		return json;
+	}
+	
 }
