@@ -113,4 +113,14 @@ public class User {
 		return user.get_User();
 	}
 	
+	@POST
+	@Path("/get")
+	@Produces(MediaType.TEXT_HTML)
+	public String viewOne(String app_text) throws NumberFormatException, JSONException
+	{
+		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
+		UserModel user =new UserModel();
+		return user.getOneUser(Integer.parseInt(app.get("id").getAsString())).toString();
+	}
+	
 }
